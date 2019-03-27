@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue.js v-on指令练习4——简书文章喜欢的练习</title>
+		<!-- 通过CDN引入Vue.js -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+		<style type="text/css">
+			.followed{
+				color: red;
+			}
+			.link{
+				cursor: pointer;
+			}
+			.cancle-followed{
+				color: hotpink;
+			}
+			button{
+				width:100px;
+				height: 35px;
+				border-radius: 20px;
+				outline: none;
+				border:1px solid rgb(234,111,90);
+				text-align: center;
+				background: white;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- vue-app的根容器 -->
+		<div id="app">
+			<h2>{{name}}</h2>
+			<button class="followed link" v-show="followed" @click="minus">
+				<i class="icon-heart"></i> 喜欢 <span> {{number}}</span>
+			</button>
+			<button class="cancle-followed link" v-show="followed===false" @click="add">
+				<i class="icon-heart-empty"></i> 喜欢<span> {{number}}</span>
+			</button>
+		</div>
+		<script type="text/javascript">
+			// 实例化一个vue对象
+			var app=new Vue({
+				el:'#app',
+				data:{
+					number:10,
+					followed:false
+				},
+				methods:{
+					add:function(){
+						this.followed=!this.followed;
+						this.number +=1;
+					},
+					minus:function(){
+						this.followed=!this.followed;
+						this.number -=1;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

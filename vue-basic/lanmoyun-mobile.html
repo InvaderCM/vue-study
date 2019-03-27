@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue.js computed练习——计算购物车总价</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<!-- 通过CDN引入Vue.js -->
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style type="text/css">
+			.container {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.card {
+				display: flex;
+				border-radius: 10px;
+				width: 330px;
+				height: 85px;
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+
+			#cover {
+				width: 60px;
+				height: 60px;
+				margin-top: 15px;
+			}
+
+			.course {
+				display: flex;
+				flex-direction: column;
+				margin-left: 20px;
+				margin-top: 10px;
+			}
+			#code{
+				margin-left: 110px;
+				color: #00BBDD;
+			}
+			#username{
+				color: #A9A9A9;
+				font-size: 13px;
+			}
+			#kebiao{
+				margin-left: 5px;
+			}
+			i{
+				position: relative;
+				margin-right: -22px;
+				margin-top: 10px;
+			}
+			#input-box{
+				text-align: center;
+				width: 340px;
+				height: 25px;
+				border-radius: 5px;
+				border: 1px solid #EEEEEE;
+				margin-bottom: 10px;
+			}
+			.banke{
+				width: 340px;
+				height: 50px;
+				background-color: #00BBDD;
+				margin-bottom: 10px;
+				border-radius: 5px;
+			}
+			#name{
+				color: white;
+				text-align: left;
+				padding-left: 10px;
+				padding-top: 15px;
+			}
+			#plus{
+				margin-left: 150px;
+			}
+			#touping{
+				margin-left: 60px;
+			}
+			
+			hr{
+				width: 300px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- vue-app的根容器 -->
+		<div id="app">
+			<div class="container">
+				<div class="top">
+					<div class="banke">
+						<p id="name">蓝墨云班课
+							<i class="icon-plus" id="plus"></i>
+							<span id="touping">
+								投屏
+							</span>
+						</p>
+					</div>
+					<i class="icon-search"></i>
+					<input type="text" id="input-box" placeholder="搜索"/>
+				</div>
+				
+				<div class="card" v-for="course in courses">
+					
+					<img :src="course.cover" id="cover">
+					<div class="course">
+						<div class="course_class">
+							{{course.course_class}}
+							<span id="code">
+								{{course.course_code}}
+							</span>
+							<br>
+							{{course.course_name}}
+							<br>
+							<span id="username">
+								{{course.username}}
+								<span id="kebiao">
+									{{course.kebiao}}
+								</span>
+								
+							</span>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// 实例化一个vue对象
+			var app = new Vue({
+				el: '#app',
+				data: {
+					courses: [{
+							course_id: 1,
+							course_name: '测试课程',
+							user_id: 1,
+							course_class: '软件1721',
+							cover: 'img/course1.jpg',
+							username: '蔡老师',
+							kebiao: '学校课表班课',
+							course_code:'321425'
+						},
+						{
+							course_id: 2,
+							course_name: 'web前端框架技术',
+							user_id: 2,
+							course_class: '软件1721',
+							cover: 'img/course2.jpg',
+							username: '许老师',
+							kebiao: '学校课表班课',
+							course_code:''
+						},
+						{
+							course_id: 3,
+							course_name: '轻量级框架',
+							user_id: 2,
+							course_class: '软件1721',
+							cover: 'img/course3.jpg',
+							username: '许老师',
+							kebiao: '学校课表班课',
+							course_code:''
+						},
+						{
+							course_id: 4,
+							course_name: '面向对象程序设计语言',
+							user_id: 3,
+							course_class: '软件1721',
+							cover: 'img/course4.jpg',
+							username: '王老师',
+							kebiao: '学校课表班课',
+							course_code:''
+						},
+						{
+							course_id: 5,
+							course_name: 'web前端技术',
+							user_id: 4,
+							course_class: '软件1721',
+							cover: 'img/course1.jpg',
+							username: '李老师',
+							kebiao: '学校课表班课',
+							course_code:''
+						},
+						{
+							course_id: 6,
+							course_name: '17周二下午78',
+							user_id: 4,
+							course_class: '毛概',
+							cover: 'img/course1.jpg',
+							username: '葛老师',
+							kebiao: '学校课表班课',
+							course_code:''
+						},
+						{
+							course_id: 7,
+							course_name: '程序设计基础',
+							user_id: 5,
+							course_class: '软件1721',
+							cover: 'img/course1.jpg',
+							username: '杨老师',
+							kebiao: '学校课表班课',
+							course_code:''
+						},
+						
+					]
+				},
+				methods: {
+
+				},
+				computed: {
+					totalPrice: function() {
+						var totalPrice = 0;
+						var len = this.goodsList.length;
+						for (var i = 0; i < len; i++) {
+							totalPrice += this.goodsList[i].price * this.goodsList[i].count;
+						}
+						return totalPrice;
+					},
+					totalCount: function() {
+						var totalCount = 0;
+						var len = this.goodsList.length;
+						for (var i = 0; i < len; i++) {
+							totalCount += this.goodsList[i].count;
+						}
+						return totalCount;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

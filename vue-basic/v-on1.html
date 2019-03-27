@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue.js v-on指令练习1</title>
+		<!-- 通过CDN引入Vue.js -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+	<body>
+		<!-- vue-app的根容器 -->
+		<div id="app">
+			<button type="button" @dblclick="handleClick">
+				<img src="img/writer3.jpg" >
+			</button>
+		</div>
+		<script type="text/javascript">
+			// 实例化一个vue对象
+			var app=new Vue({
+				el:'#app',
+				data:{
+					name:'软件1721'
+				},
+				methods:{
+					handleClick:function(){
+						alert(this.name);
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

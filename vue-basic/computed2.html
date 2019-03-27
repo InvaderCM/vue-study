@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue.js computed练习——计算购物车总价</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<!-- 通过CDN引入Vue.js -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style type="text/css">
+			.container {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.item {
+				display: flex;
+				border: 1px solid #008000;
+				border-radius: 10px;
+				width: 300px;
+				height: 80px;
+				margin-bottom: 10px;
+				/* 垂直方向居中 */
+				align-items: center;
+				/* 水平方向居中 */
+				/* justify-content: center; */
+				/* 内边距 */
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+
+			.item-id {
+				flex: 1 1 20%;
+			}
+
+			.item-name {
+				flex: 1 1 30%;
+			}
+
+			.item-price {
+				flex: 1 1 20%;
+			}
+
+			.item-count {
+				flex: 1 1 30%;
+			}
+
+			.goods-count {
+				width: 15px;
+				text-align: center;
+			}
+
+			.card {
+				width: 300px;
+				height: 20px;
+				display: flex;
+				margin-bottom: 10px;
+			}
+
+			.shop {
+				width: 20px;
+				height: 20px;
+				margin-left: 10px;
+			}
+
+			#name {
+				margin-left: 10px;
+			}
+
+			#photo {
+				width: 25px;
+				height: 25px;
+				margin-left: 10px;
+			}
+
+			#count {
+				width: 80px;
+				height: 30px;
+				border-radius: 10px;
+				border: 1px solid orangered;
+				color: white;
+				background-color: orangered;
+				outline: none;
+				margin-left: 25px;
+			}
+
+			#total {
+				color: orangered;
+				font-size: 15px;
+			}
+			a{
+				text-decoration:none;
+			}
+			h3{
+				margin-left: 10px;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- vue-app的根容器 -->
+		<div id="app">
+			<div class="container">
+				<div class="card">
+					<img src="img/dianpu.png" class="shop">
+					<span id="name">Apple Store 官方旗舰店</span>
+				</div>
+				<div class="item" v-for="goods in goodsList">
+					<div class="item-id">
+						{{goods.id}}
+						<img :src="goods.photo" id="photo">
+					</div>
+					<div class="item-name">
+						<a href="https://detail.tmall.com/item.htm?spm=a220o.1000855.w5003-21089359760.12.2ef54125w2PNuu&id=558420556696&scene=taobao_shop&sku_properties=10004:709990523">{{goods.name}}</a>
+					</div>
+					<div class="item-price">
+						{{goods.price}}
+					</div>
+					<div class="item-count">
+						<button type="button" @click="goods.count-=1" :disabled="goods.count===0">-</button>
+						<input type="text" v-model="goods.count" class="goods-count" />
+						<button type="button" @click="goods.count+=1">+</button>
+					</div>
+				</div>
+				<hr>
+				<h3>合计：
+					<span id="total">￥{{totalPrice}}</span>
+					<button type="button" id="count">结算</button>
+				</h3>
+					<span>您已选中{{totalCount}}件商品</span>
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			// 实例化一个vue对象
+			var app = new Vue({
+				el: '#app',
+				data: {
+					goodsList: [{
+							id: 1,
+							name: 'iphone 8',
+							price: 6000,
+							count: 1,
+							photo: 'img/iphone8.jpg'
+						},
+						{
+							id: 2,
+							name: 'iphone X',
+							price: 7000,
+							count: 1,
+							photo: 'img/iponeX.jpg'
+						},
+						{
+							id: 3,
+							name: 'iphone XS Max',
+							price: 8000,
+							count: 1,
+							photo: 'img/iphoneXS.jpg'
+						}
+					]
+				},
+				methods: {
+					
+				},
+				computed: {
+					totalPrice: function() {
+						var totalPrice = 0;
+						var len = this.goodsList.length;
+						for (var i = 0; i < len; i++) {
+							totalPrice += this.goodsList[i].price * this.goodsList[i].count;
+						}
+						return totalPrice;
+					},
+					totalCount: function()
+					{
+						var totalCount = 0;
+						var len = this.goodsList.length;
+						for (var i = 0; i < len; i++) {
+							totalCount += this.goodsList[i].count;
+						}
+						return totalCount;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

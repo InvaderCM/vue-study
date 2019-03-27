@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue.js表单练习</title>
+		<!-- 通过CDN引入Vue.js -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+		<style type="text/css">
+			* {
+				/*伸缩项目自动box-sizing:border-box，所以需调整为content-box*/
+				box-sizing: content-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				display: flex;
+				/*头、中部、脚纵向显示*/
+				flex-direction: column;
+			}
+
+			header {
+				/*不放大、不缩小、尺寸固定*/
+				display: flex;
+				flex: 0 0 50px;
+				background: white;
+			}
+
+			.main {
+				width: 80%;
+				margin: 0 auto;
+				display: flex;
+				/* flex: 1 1 auto: 中部区域自由伸缩，可以简写成flexL1*/
+				flex: 1 1 auto;
+			}
+
+			.left {
+				background: white;
+				/*不放大、不缩小、固定宽200 */
+				flex: 0 0 200px;
+				/*让left居于左侧*/
+				order: -1;
+			}
+
+			.content {
+				background: white;
+				flex: 1 1 auto;
+				margin-left: 10px;
+			}
+
+			.right {
+				flex: 0 0 220px;
+				background: white;
+				display: flex;
+				flex-direction: column;
+				margin-left: 10px;
+			}
+
+			#jianshu {
+				width: 12%;
+				height: 12%;
+				margin-left: 20px;
+			}
+
+			.discover {
+				margin-top: 10px;
+				margin-left: 50px;
+				font-size: large;
+			}
+
+			#search {
+				width: 150px;
+				height: 40px;
+				border-radius: 20px;
+				outline: none;
+				border: 1px solid white;
+				font-size: 15px;
+				color: #A9A9A9;
+				margin-left: 50px;
+				margin-top: 2px;
+				background-color: #EEEEEE;
+			}
+
+			#search1 {
+				margin-left: 60px;
+			}
+
+			#head {
+				color: #FFFFFF;
+			}
+
+			#zimu {
+				margin-left: 400px;
+				margin-top: 10px;
+				font-size: 20px;
+				color: #A9A9A9;
+			}
+
+			#me {
+				width: 3%;
+				height: 3%;
+				border-radius: 50%;
+				margin-top: 4px;
+				margin-left: 50px;
+			}
+
+			#down {
+				margin-top: 15px;
+				margin-left: 5px;
+			}
+
+			.write {
+				width: 100px;
+				height: 40px;
+				border-radius: 20px;
+				border: 1px solid white;
+				outline: none;
+				margin-left: 40px;
+				margin-top: 2px;
+				background-color: coral;
+				color: white;
+			}
+
+			#pencil {
+				margin-right: 5px;
+			}
+
+			.box {
+				width: 200px;
+				height: 60px;
+				background-color: white;
+				text-align: center;
+			}
+
+			.box1 {
+				width: 200px;
+				height: 60px;
+				background-color: #EEEEEE;
+				text-align: center;
+			}
+
+			.settting {
+				position: relative;
+				width: 30px;
+				height: 30px;
+				margin-top: 15PX;
+				margin-left: -100px;
+			}
+
+			.setting1 {
+				position: relative;
+				margin-left: 60px;
+				margin-top: -30px;
+			}
+
+			.name {
+				margin-left: 50px;
+				margin-top: 30px;
+				width: 200px;
+				height: 30px;
+				font-size: 15px;
+				border-radius: 1px;
+				outline: none;
+			}
+
+
+
+			.center {
+				margin-left: 40px;
+			}
+
+			.selectsex p {
+				margin-top: 15px;
+				font-size: 15px;
+			}
+
+			#male,
+			#female {
+				margin-left: 50px;
+				font-size: 15px;
+			}
+
+			#introduction1 {
+				width: 200px;
+				height: 60px;
+				margin-top: 10px;
+				display: flex;
+			}
+
+			#commit {
+				width: 100px;
+				height: 30px;
+				border-radius: 5px;
+				outline: none;
+				background-color: lightskyblue;
+				border: 1px solid white;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- vue-app的根容器 -->
+		<div id="app">
+			<header>
+				<img src="img/jianshu.jpg" id="jianshu">
+				<span class="discover">
+					发现
+				</span>
+				<span class="discover">
+					关注
+				</span>
+				<span class="discover">
+					消息
+				</span>
+				<button id="search">搜索
+					<i class="icon-search" id="search1"></i>
+				</button>
+				<span id="zimu">
+					Aa
+				</span>
+				<img src="img/me.jpg" id="me">
+				<i class=" icon-caret-down" id="down"></i>
+				<button type="button" class="write">
+					<i class="icon-pencil" id="pencil"></i>
+					写文章
+				</button>
+			</header>
+			<hr id="head">
+			<div class="main">
+				<div class="left">
+					<div class="box">
+					</div>
+					<div class="box">
+						<img src="img/zhanghaoguanli.jpg" class="settting">
+						<div class="setting1">
+							<span>基础设置</span>
+						</div>
+					</div>
+					<div class="box1">
+						<img src="img/gerenziliao.jpg" class="settting">
+						<div class="setting1">
+							<span>个人资料</span>
+						</div>
+					</div>
+					<div class="box">
+						<img src="img/black.jpg" class="settting">
+						<div class="setting1">
+							<span>黑 名 单</span>
+						</div>
+					</div>
+					<div class="box">
+						<img src="img/money.jpg" class="settting">
+						<div class="setting1">
+							<span>赞赏设置</span>
+						</div>
+					</div>
+					<div class="box">
+						<img src="img/zhanghaoguanli.jpg" class="settting">
+						<div class="setting1">
+							<span>账号管理</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="content">
+					<div class="center">
+						<div class="writename">
+							<br>
+							<span>昵称：</span>
+							<input v-model="name" placeholder="昵称 ……" class="name">
+							<br>
+							<p>您输入的昵称是: {{ name }}</p>
+						</div>
+						<br>
+						<div class="selectsex">
+							<p>性别：
+								<input type="radio" id="male" value="male" v-model="picked">
+								<label for="male">男</label>
+								<input type="radio" id="female" value="female" v-model="picked">
+								<label for="female">女</label>
+							</p>
+							<span>您选择的性别是： {{ picked }}</span>
+						</div>
+						<br>
+						<div class="introduction">
+							<span>个人简介：</span>
+							<textarea v-model="message" placeholder="个人简介……" id="introduction1"></textarea>
+						</div>
+						<br>
+						<div class="broth">
+							<span>出生日期：</span>
+							<select v-model="selected1" name="year">
+								<option value=""></option>
+								<option value="2001">2001</option>
+								<option value="2000">2000</option>
+								<option value="1999">1999</option>
+								<option value="1998">1998</option>
+							</select>
+							<span>年</span>
+							<select v-model="selected2" name="month">
+								<option value=""></option>
+								<option value="12">12</option>
+								<option value="11">11</option>
+								<option value="10">10</option>
+								<option value="09">09</option>
+							</select>
+							<span>月</span>
+							<select v-model="selected3" name="day">
+								<option value=""></option>
+								<option value="30">30</option>
+								<option value="29">29</option>
+								<option value="28">28</option>
+								<option value="27">27</option>
+							</select>
+							<span>日</span>
+							<p> 您的出生日期是: {{ selected1 }}年{{ selected2 }}月{{ selected3 }}日</p>
+						</div>
+						<br>
+						<div class="hobbies">
+							<span>兴趣爱好：</span>
+							<input type="checkbox" id="music" value="听音乐" v-model="checkedNames">
+							<label for="baidu">听音乐</label>
+							<input type="checkbox" id="reading" value="阅读" v-model="checkedNames">
+							<label for="google">阅读</label>
+							<input type="checkbox" id="run" value="跑步" v-model="checkedNames">
+							<label for="tencent">跑步</label>
+							<input type="checkbox" id="basketb" value="打篮球" v-model="checkedNames">
+							<label for="tencent">打篮球</label>
+							<br>
+							<span>共有{{checkedNames.length}}个兴趣爱好，分别为: {{ checkedNames }}</span>
+						</div>
+						<br>
+						<button type="button" @click="commit" id="commit">提交</button>
+					</div>
+				</div>
+				<div class="right">
+					<br>
+					<br>
+					<h2>您的个人资料为：</h2>
+					<div class="result">
+						<br>
+						<p>昵称：{{name}}</p>
+						<br>
+						<p>性别：{{picked}}</p>
+						<br>
+						<p>个人简介：{{message}}</p>
+						<br>
+						<p>出生日期：{{selected1}}年{{selected2}}月{{selected3}}日</p>
+						<br>
+						<p>爱好：</p>
+						<ul>
+							<li v-for="item in checkedNames">
+								{{item}}
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// 实例化一个vue对象
+			var app = new Vue({
+				el: '#app',
+				data: {
+					name: '',
+					picked: '',
+					message: '',
+					selected1: '',
+					selected2: '',
+					selected3: '',
+					checkedNames: [],
+				},
+				methods: {
+					commit: function() {
+						alert("确定提交吗？");
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
