@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"green-btn{ background-color: #00B26A; }\n",],undefined,{path:"./pages/register/password.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/register/password.wxml') } }));

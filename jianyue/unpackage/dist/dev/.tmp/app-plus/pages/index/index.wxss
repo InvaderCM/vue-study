@@ -1,0 +1,19 @@
+
+.article-box {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+}
+.article-info {
+	-webkit-box-flex: display;
+	-webkit-flex: display;
+	    -ms-flex: display;
+	        flex: display;
+}
+
