@@ -121,6 +121,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   data: function data() {
     return {
@@ -139,8 +140,8 @@ __webpack_require__.r(__webpack_exports__);
     signUp: function signUp(userDTO) {
       var _this = this;
       uni.request({
-        // url: this.apiServer + '/user/sign_up',
-        url: 'http://192.168.137.1:8080/api/user/sign_up',
+        url: this.apiServer + '/user/sign_up',
+        // url: 'http://192.168.137.1:8080/api/user/sign_up',
         method: 'POST',
         header: { 'content-type': 'application/json' },
         data: {
@@ -153,8 +154,8 @@ __webpack_require__.r(__webpack_exports__);
               title: '提示',
               content: '注册成功' });
 
-            uni.navigateTo({
-              url: '../signin/signin' });
+            uni.navigateTo({});
+
 
           } else {
             uni.showModal({
@@ -229,7 +230,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "green-btn",
+          staticClass: "register-btn",
           attrs: { eventid: "08499c4f-1" },
           on: {
             tap: function($event) {
@@ -238,6 +239,11 @@ var render = function() {
           }
         },
         [_vm._v("注册")]
+      ),
+      _c(
+        "navigator",
+        { staticClass: "toSignin", attrs: { url: "../signin/signin" } },
+        [_vm._v("现在就登录")]
       )
     ],
     1

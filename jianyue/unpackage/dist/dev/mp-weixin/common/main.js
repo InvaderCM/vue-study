@@ -83,8 +83,9 @@ __webpack_require__(/*! uni-pages */ "../../../../../VueStudy/jianyue/pages.json
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mpvue/index.js"));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../../VueStudy/jianyue/App.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
+
 _vue.default.config.productionTip = false;
-_vue.default.prototype.apiServer = 'http://10.40.141.240:8080/api';
+_vue.default.prototype.apiServer = 'http://10.30.172.146:8080/api';
 
 _App.default.mpType = 'app';
 

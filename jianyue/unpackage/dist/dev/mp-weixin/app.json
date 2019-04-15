@@ -8,10 +8,11 @@
     "pages/write/write",
     "pages/info/info",
     "pages/setting/setting",
-    "pages/user_info/user_info",
+    "pages/user_info/user-info",
     "pages/user_info/change_nickname",
     "pages/register/register",
-    "pages/register/password"
+    "pages/register/password",
+    "pages/user_info/change-password"
   ],
   "subPackages": [],
   "window": {

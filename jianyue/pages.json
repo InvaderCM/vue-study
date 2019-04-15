@@ -31,12 +31,14 @@
 		},
 		{
 			"path": "pages/signin/signin",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
 		},
 		{
 			"path": "pages/write/write",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "写文章"
 			}
 		},
 		{
@@ -50,7 +52,7 @@
 			}
 		},
 		{
-			"path": "pages/user_info/user_info",
+			"path": "pages/user_info/user-info",
 			"style": {
 				"navigationBarTitleText": "个人信息"
 			}
@@ -69,7 +71,15 @@
 		},
 		{
 			"path": "pages/register/password",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "设置密码"
+			}
+		},
+		{
+			"path": "pages/user_info/change-password",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
 		}
 	],
 	"globalStyle": {

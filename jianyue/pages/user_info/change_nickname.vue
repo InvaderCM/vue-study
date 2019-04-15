@@ -1,11 +1,11 @@
 <template>
 	<view class="uni-flex uni-column container">
-		<view class="item-nick">当前昵称是：{{ modifyNickName }}</view>
+		<view class="item-nick">当前昵称：{{ modifyNickName }}</view>
 
 		<view class="item-newNN">
-			<input class="uni-input" type="text" placeholder="请输入新的昵称" v-model="user.nickname1" required="required" />
+			<input class="uni-input" type="text" placeholder="请输入新的昵称:" v-model="user.nickname1" required="required" />
 
-			<button class="green-btn" @tap="updateNickName(user)">确认</button>
+			<button class="btn-basic orange-gradient" @tap="updateNickName(user)">确认修改</button>
 		</view>
 	</view>
 </template>
@@ -26,7 +26,8 @@
 				// const loginKey = uni.getStorageSync('login_key');
 				var _this = this;
 				uni.request({
-					url: 'http://10.30.247.95:8080/api/user/updateNickName',
+					// url: 'http://192.168.137.1:8080/api/user/updateNickName',
+					url: this.apiServer+'/user/updateNickName',
 					method: 'PUT',
 					data: {
 						nickname: _this.user.nickname1,
@@ -41,28 +42,7 @@
 					// 					console.log(_this.user.id+"-----"+_this.user.nickname1+"成功");
 					// 				}
 					success: res => {
-						// 					console.log(user.nickname1);
-						// 					console.log(user.id);
-						console.log(res.data.code);
-						// if (res.data.code == 0) {
-						uni.showToast({
-							title: '修改昵称成功',
-							icon: 'succes',
-							duration: 1000,
-							mask: true
-						});
-						// uni.navigateBack();
-						uni.redirectTo({
-							url: "user-info"
-						});
-						// }
-						// 					//登录失败，弹出各种原因
-						// 					else {
-						// 						uni.showModal({
-						// 							title: '提示',
-						// 							content: res.data.msg
-						// 						});
-						// 					}
+						uni.navigateBack();
 					}
 				});
 			}
@@ -73,6 +53,7 @@
 <style>
 	.item-nick {
 		margin-top: 10px;
+		font-size: 15px;
 	}
 
 	.item-newNN {
@@ -85,8 +66,21 @@
 		margin-bottom: 5px;
 	}
 
-	.green-btn {
-		background-color: #00b26a;
-		margin-top: 20px;
+	/* 橘色渐变色按钮 */
+	.orange-gradient {
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
+		color: #FFF;
+	}
+	
+	/* 基础按钮 */
+	.btn-basic {
+		width: 100%;
+		height: 50px;
+		margin-top: 15px;
+		border-radius: 10px;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		font-size: 20px;
 	}
 </style>

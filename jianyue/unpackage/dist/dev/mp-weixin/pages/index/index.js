@@ -161,17 +161,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   data: function data() {
     return {
-      articles: [] };
+      articles: [],
+      login: false };
 
   },
   onLoad: function onLoad() {
     this.getArticles();
   },
   onShow: function onShow() {
-
+    var loginKey = uni.getStorageSync('login_key');
+    console.log(loginKey);
+    if (loginKey) {
+      this.login = true;
+    } else {
+      this.login = false;
+    }
   },
   onPullDownRefresh: function onPullDownRefresh() {
     this.getArticles();
@@ -180,7 +189,8 @@ __webpack_require__.r(__webpack_exports__);
     getArticles: function getArticles() {
       var _this = this;
       uni.request({
-        url: 'http://10.40.141.240:8080/api/article/list',
+        // url: 'http://10.30.162.205:8080/api/article/list',
+        url: this.apiServer + '/article/list',
         method: 'GET',
         header: {
           'content-type': 'application/x-www-form-urlencoded' },
@@ -215,6 +225,13 @@ __webpack_require__.r(__webpack_exports__);
       content = content.replace(/<\/?[^>]*>/g, '');
       content = content.replace(/\s*/g, '');
       return content.substring(0, 50);
+    },
+    islogin: function islogin() {
+      if (this.login) {
+        console.log('已登录');
+      } else {
+        console.log('未登录');
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
@@ -266,7 +283,7 @@ var render = function() {
             [_vm._v(_vm._s(article.title))]
           ),
           article.imgs.length >= 3
-            ? _c("view", {}, [
+            ? _c("view", { staticClass: "images" }, [
                 _c(
                   "view",
                   { staticClass: "thumbnail-box" },
@@ -276,7 +293,7 @@ var render = function() {
                           "view",
                           { key: index, staticClass: "thumbnail-item" },
                           [
-                            _c("image", { attrs: { src: item.imgUrl } }),
+                            _c("image", { attrs: { src: item.imgs } }),
                             _vm._v(_vm._s(item.imgUrl))
                           ]
                         )
@@ -285,7 +302,7 @@ var render = function() {
                 )
               ])
             : article.imgs.length >= 1
-            ? _c("view", {}, [
+            ? _c("view", { staticClass: "images" }, [
                 _c("view", { staticClass: "text-img-box" }, [
                   _c("view", { staticClass: "left" }, [
                     _c("text", [
@@ -293,11 +310,8 @@ var render = function() {
                     ])
                   ]),
                   _c("view", { staticClass: "right" }, [
-                    _vm._v("11111111111111"),
                     _c("image", {
-                      attrs: {
-                        src: article.imgs[article.imgs.length - 1].imgUrl
-                      }
+                      attrs: { src: article.imgs[article.imgs.length - 1].imgs }
                     })
                   ])
                 ])
@@ -321,6 +335,55 @@ var render = function() {
           ])
         ])
       })
+    ),
+    _c(
+      "view",
+      [
+        _vm.login
+          ? _c(
+              "navigator",
+              {
+                attrs: {
+                  url: "../write/write",
+                  "hover-class": "navigator-hover",
+                  eventid: "dfcde1c6-2"
+                },
+                on: {
+                  tap: function($event) {
+                    _vm.islogin()
+                  }
+                }
+              },
+              [
+                _c("button", { staticClass: "btn-floating orange-gradient" }, [
+                  _c("text", { staticClass: "pluss" }, [_vm._v("+")])
+                ])
+              ],
+              1
+            )
+          : _c(
+              "navigator",
+              {
+                attrs: {
+                  url: "../signin/signin",
+                  "hover-class": "navigator-hover",
+                  eventid: "dfcde1c6-1"
+                },
+                on: {
+                  tap: function($event) {
+                    _vm.islogin()
+                  }
+                }
+              },
+              [
+                _c("button", { staticClass: "btn-floating orange-gradient" }, [
+                  _c("text", { staticClass: "pluss" }, [_vm._v("+")])
+                ])
+              ],
+              1
+            )
+      ],
+      1
     )
   ])
 }

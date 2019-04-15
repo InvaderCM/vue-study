@@ -1,29 +1,80 @@
 
-.article-title{
-	font-weight:bold;
+.container {
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
-.article-info{
-	color: #E9E9E9;
+.article-title {
+	font-weight: bold;
 }
-.avatar{
+.article-info {
+	color: grey;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	margin-top: 5px;
+}
+.avatar {
 	border-radius: 50%;
 	width: 75rpx;
 	height: 75rpx;
 }
-.comment-item{
+.comment-item {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
 	margin-top: 15rpx;
 }
-.left{
+.comment-box {
+	margin-top: 20px;
+}
+.left {
 	margin-top: 50rpx;
 }
-.right{
+.right {
 	margin-left: 40rpx;
+	color: grey;
 }
-.info-text{
-	margin-top: 30rpx;
+.info-text {
+	margin-left: 5px;
+}
+.article-nickname {
+	margin-left: 10px;
+}
+.follow-btn {
+	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
+	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	height: 33px;
+	width: 80px;
+	font-size: 12pt;
+	text-align: center;
+	cursor: pointer;
+	color: #FFFFFF;
+}
+.collect-btn{
+	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
+	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	color: #FFFFFF;
+	width: 40%;
+	border-radius: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.commit-btn{
+	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
+	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	color: #FFFFFF;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.comment-content {
+	color: black;
 }
 

@@ -1,2 +1,2 @@
-setCssToHead([".",[1],"green-btn{ background-color: #00B26A; }\n",],undefined,{path:"./pages/register/password.wxss"})();
+setCssToHead([".",[1],"green-btn{ background-color: #09BB07; margin-top: 10px; border-radius: 10px; }\n",],undefined,{path:"./pages/register/password.wxss"})();
 document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/register/password.wxml') } }));

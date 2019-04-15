@@ -141,7 +141,8 @@ __webpack_require__.r(__webpack_exports__);
       // const loginKey = uni.getStorageSync('login_key');
       var _this = this;
       uni.request({
-        url: 'http://10.30.247.95:8080/api/user/updateNickName',
+        // url: 'http://192.168.137.1:8080/api/user/updateNickName',
+        url: this.apiServer + '/user/updateNickName',
         method: 'PUT',
         data: {
           nickname: _this.user.nickname1,
@@ -156,28 +157,7 @@ __webpack_require__.r(__webpack_exports__);
         // 					console.log(_this.user.id+"-----"+_this.user.nickname1+"成功");
         // 				}
         success: function success(res) {
-          // 					console.log(user.nickname1);
-          // 					console.log(user.id);
-          console.log(res.data.code);
-          // if (res.data.code == 0) {
-          uni.showToast({
-            title: '修改昵称成功',
-            icon: 'succes',
-            duration: 1000,
-            mask: true });
-
-          // uni.navigateBack();
-          uni.redirectTo({
-            url: "user-info" });
-
-          // }
-          // 					//登录失败，弹出各种原因
-          // 					else {
-          // 						uni.showModal({
-          // 							title: '提示',
-          // 							content: res.data.msg
-          // 						});
-          // 					}
+          uni.navigateBack();
         } });
 
     } } };exports.default = _default;
@@ -213,7 +193,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("view", { staticClass: "uni-flex uni-column container" }, [
     _c("view", { staticClass: "item-nick" }, [
-      _vm._v("当前昵称是：" + _vm._s(_vm.modifyNickName))
+      _vm._v("当前昵称：" + _vm._s(_vm.modifyNickName))
     ]),
     _c(
       "view",
@@ -231,7 +211,7 @@ var render = function() {
           staticClass: "uni-input",
           attrs: {
             type: "text",
-            placeholder: "请输入新的昵称",
+            placeholder: "请输入新的昵称:",
             required: "required",
             eventid: "c72ac710-0"
           },
@@ -248,7 +228,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "green-btn",
+            staticClass: "btn-basic orange-gradient",
             attrs: { eventid: "c72ac710-1" },
             on: {
               tap: function($event) {
@@ -256,7 +236,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("确认")]
+          [_vm._v("确认修改")]
         )
       ],
       1

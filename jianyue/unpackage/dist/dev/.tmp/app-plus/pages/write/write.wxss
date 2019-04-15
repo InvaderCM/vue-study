@@ -1,0 +1,59 @@
+
+.item{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+}
+.item-left{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 80%;
+	    -ms-flex: 1 80%;
+	        flex: 1 80%;
+}
+.item-right{
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 20%;
+	    -ms-flex: 1 20%;
+	        flex: 1 20%;
+}
+/* 橘色渐变色按钮 */
+.orange-gradient {
+	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
+	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	color: #FFF;
+}
+/* 基础按钮 */
+.btn-basic{
+	-webkit-box-shadow: 2px 5px 10px #AAA;
+	        box-shadow: 2px 5px 10px #AAA;
+	width: 90px;
+	height: 40px;
+	margin: 10px;
+	border-radius: .3rem;
+	padding: 0;
+	cursor: pointer;
+	border: none;
+	font-size: 17px;
+}
+.article-content{
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-bottom: 3px solid #EEEEEE;
+}
+.article-title{
+	border-bottom: 3px solid #EEEEEE;
+	padding-bottom: 20px;
+}
+.article-image{
+	margin-top: 10px;
+}
+.yulan{
+	font-size: 20px;
+	font-weight: 900;
+}
+

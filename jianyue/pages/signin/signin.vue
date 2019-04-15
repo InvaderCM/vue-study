@@ -7,9 +7,9 @@
 				<checkbox :checked="remmberPsw" @tap="remmberPsw = !remmberPsw">记住我鸭~</checkbox>
 			</checkbox-group>
 		</view>
-		<button class="green-btn" @tap="signIn(userDTO)">登录</button>
+		<button class="btn-basic" @tap="signIn(userDTO)">登录</button>
 		<view class="list-regist">
-			<navigator class="item-regist" url="../register/register"><text class="setting-txt">还没有账号嘛？点我注册鸭！</text></navigator>
+			<navigator class="item-regist" url="../register/register"><text class="setting-text">还没有账号嘛？点我注册鸭！</text></navigator>
 		</view>
 	</view>
 </template>
@@ -52,8 +52,8 @@
 				var _this = this;
 				// console.log(userDTO.mobile + ',' + userDTO.password);
 				uni.request({
-					// url: this.apiServer+'/user/sign_in',
-					url: 'http://10.30.247.95:8080/api/user/sign_in',
+					url: this.apiServer+'/user/sign_in',
+					// url: 'http://192.168.137.1:8080/api/user/sign_in',
 					method: 'POST',
 					data: {
 						mobile: userDTO.mobile,
@@ -118,11 +118,20 @@
 		border-bottom: 1px solid #eee;
 		margin-bottom: 5px;
 	}
-
-	.green-btn {
-		background-color: #00B26A;
-		margin-top: 10px;
+	
+	/* 基础按钮 */
+	.btn-basic {
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
 		color: #FFFFFF;
+		width: 100%;
+		height: 50px;
+		margin-top: 15px;
+		border-radius: 10px;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		font-size: 20px;
+		color: #EEEEEE;
 	}
 
 	.reg {
@@ -149,6 +158,6 @@
 	.list-regist{
 		text-align: center;
 		margin-top: 20upx;
-		color: #00B26A;
+		color: #FF7900;
 	}
 </style>

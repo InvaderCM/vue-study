@@ -1,5 +1,5 @@
 
-.article-box {
+.article {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -9,17 +9,11 @@
 	-webkit-flex-direction: column;
 	    -ms-flex-direction: column;
 	        flex-direction: column;
+	border-bottom: 10px solid #EEEEEE;
+	margin-top: 15px;
+	padding-bottom: 15px;
 }
-.article-title{
-	font-weight: 900;
-}
-.article-info {
-	-webkit-box-flex: display;
-	-webkit-flex: display;
-	    -ms-flex: display;
-	        flex: display;
-}
-.thumbnail-box{
+.avatar-box {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -30,8 +24,122 @@
 	    -ms-flex-direction: row;
 	        flex-direction: row;
 }
-.info-text{
-	margin-left: 15px;
+.article-title {
+	font-weight: 900;
+	margin-bottom: 5px;
+}
+.text-img-box {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+}
+.thumbnail-box {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	    -ms-flex-direction: row;
+	        flex-direction: row;
+}
+.thumbnail-item image {
+	width: 220rpx;
+	height: 220rpx;
+	margin-left: 7px;
+}
+.left {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 1 60%;
+	    -ms-flex: 1 1 60%;
+	        flex: 1 1 60%;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;
+	overflow: hidden;
+}
+.right {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1 1 40%;
+	    -ms-flex: 1 1 40%;
+	        flex: 1 1 40%;
+	width: 100%;
+	height: 100%;
+}
+.right image {
+	width: 90%;
+	height: 200rpx;
+}
+.article-info {
 	color: grey;
+	width: 100%;
+	margin-left: 10rpx;
+	margin-top: 10px;
+}
+.avatar {
+	width: 75rpx;
+	height: 75rpx;
+	border-radius: 50%;
+}
+.info-text {
+	margin-left: 15px;
+}
+
+/* 橘色渐变色按钮 */
+.orange-gradient {
+	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
+	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	color: #FFF;
+}
+
+/* 圆形按钮 */
+
+/* .btn-floating {
+	/* 阴影效果，四个参数分别是：水平阴影位置、垂直阴影位置、阴影尺寸位置大小、阴影颜色 */
+
+/* box-shadow: 2px 5px 10px #AAA;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+cursor: pointer;
+position: relative;
+margin-left: 300px;
+} */
+.btn-floating {
+	position: fixed;
+	bottom: 100px;
+	right: 20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #de533a;
+	/* background-image: url(../../static/Pencil32.png); */
+	-webkit-box-shadow: 2px 5px 10px #aaa;
+	        box-shadow: 2px 5px 10px #aaa;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	color: #ffffff;
+}
+.pluss {
 }
 

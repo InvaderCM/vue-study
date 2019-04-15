@@ -113,7 +113,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 
 
 
@@ -125,10 +125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import uniList from '@/components/uni-list/uni-list.vue';
-// import uniListItem from '@/components/uni-list-item/uni-list-item.vue';
-var _default = {
-  // components: { uniList, uniListItem },
+{
   data: function data() {
     return {};
   },
@@ -194,7 +191,7 @@ var render = function() {
             "navigator",
             {
               staticClass: "list-item",
-              attrs: { url: "../user_info/user_info" }
+              attrs: { url: "../user_info/user-info" }
             },
             [_c("text", { staticClass: "setting-txt" }, [_vm._v("个人资料")])]
           )
@@ -204,7 +201,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "green-btn",
+          staticClass: "btn-basic orange-gradient",
           attrs: { eventid: "63264359-0" },
           on: { tap: _vm.logout }
         },

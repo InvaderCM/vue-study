@@ -164,44 +164,152 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var loginRes, _self;var _default =
 {
   data: function data() {
     return {
-      storageData: {},
-      articleNumb: '10',
-      concernNumb: '5',
-      infoNumb: '66',
-      jifenNumb: '100',
-      lists: [{
-        id: '1',
-        articleName: '吐血推荐！5款好用又骚气的神战！真的有毒！（附网址）' },
+      storageData: {
+        userId: 0,
+        nickname: '',
+        avatar: '',
+        login: false },
+
+      //分类信息
+      categories: [{
+        cateid: 0,
+        name: '文章' },
 
       {
-        id: '2',
-        articleName: '5款APP神器，一个都不能错过（影视、音乐、阅读、工具、学习）' },
+        cateid: 1,
+        name: '关注' },
 
       {
-        id: '3',
-        articleName: '对于程序员来说最难写的是代码吗？' },
+        cateid: 2,
+        name: '收藏' },
 
       {
-        id: '4',
-        articleName: '坚持打卡50天，我被朋友圈大部分的人屏蔽了' }] };
+        cateid: 3,
+        name: '积分' }],
 
 
+      // 当前选择的分类
+      cateCurrentIndex: 0,
+      articles: [],
+      follows: [],
+      jifen: 100,
+      collection: 8 };
 
   },
   onLoad: function onLoad() {},
   onShow: function onShow() {
+    var _this = this;
+    uni.request({
+      // url: 'http://localhost:8080/api/user/' + uni.getStorageSync('login_key').userId,
+      url: this.apiServer + '/user/getUserByMobile',
+      method: 'GET',
+      data: {
+        mobile: _this.mobile },
+
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' },
+
+      success: function success(res) {
+        if (res.data.code === 0) {
+          // console.log(res.data.data.avatar + '————————————');
+          _this.avatar = res.data.data.avatar;
+          _this.nickname = res.data.data.nickname1;
+        }
+      } });
+
     var loginKey = uni.getStorageSync('login_key');
-    console.log("come");
     if (loginKey) {
-      console.log(loginKey);
+      this.login = true;
+      // console.log('shihoudengnkw:' + this.login);
       this.storageData = {
         login: loginKey.login,
         nickname: loginKey.nickname,
-        avatar: loginKey.avatar };
+        avatar: loginKey.avatar,
+        userId: loginKey.userId };
+
+      // 			uni.request({
+      // 				// 获取用户的文章数量
+      // 				url: this.apiServer + '/article/getArticleByUID',
+      // 				method: 'GET',
+      // 				header: { 'content-type': 'application/x-www-form-urlencoded' },
+      // 				data: {
+      // 					userId: this.storageData.userId
+      // 				},
+      // 				success: res => {
+      // 					_this.articleCount = res.data.data.length;
+      // 					console.log('文章数量' + _this.articleCount);
+      // 				}
+      // 			});
+      uni.request({
+        // 根据用户id获取所有发表的文章
+        url: this.apiServer + '/article/getArticleByUID',
+        method: 'GET',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' },
+
+        data: {
+          uId: this.storageData.userId },
+
+        success: function success(res) {
+          _this.articles = res.data.data;
+        } });
+
+      uni.request({
+        // 	根据userId查询所有关注的用户
+        url: this.apiServer + '/follow/list',
+        method: 'GET',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' },
+
+        data: {
+          fromUId: this.storageData.userId },
+
+        success: function success(res) {
+          _this.follows = res.data.data;
+        } });
+
+      uni.request({
+        // 	根据userId查询所有收藏的文章
+        url: this.apiServer + '/collect/collectlist',
+        method: 'GET',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' },
+
+        data: {
+          fromUId: this.storageData.userId },
+
+        success: function success(res) {
+          _this.collects = res.data.data;
+        } });
 
     } else {
       this.storageData = {
@@ -209,7 +317,24 @@ var loginRes, _self;var _default =
 
     }
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    tabChange: function tabChange(e) {
+      // 选中的索引
+      var index = e.currentTarget.dataset.index;
+      // 具体的分类id
+      var cateid = e.currentTarget.dataset.cateid;
+      this.cateCurrentIndex = index;
+      // 动态替换内容
+      this.content = this.categories[index].name;
+    },
+    gotoDetail: function gotoDetail(aId) {
+      uni.navigateTo({
+        url: '../articles_detail/article_detail?aId=' +
+        aId +
+        '&userId=' +
+        this.storageData.userId });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
@@ -240,126 +365,199 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "view",
-    { staticClass: "container" },
-    [
-      _c("view", { staticClass: "top" }, [
-        _c("view", { staticClass: "avatar-box" }, [
+  return _c("view", { staticClass: "container" }, [
+    _c("view", { staticClass: "top" }, [
+      _c("view", { staticClass: "avatar-box" }, [
+        !_vm.storageData.login
+          ? _c("image", {
+              staticClass: "avatar",
+              attrs: { src: "../../static/default.png", mode: "scaleToFill" }
+            })
+          : _vm._e(),
+        _vm.storageData.login
+          ? _c("image", {
+              staticClass: "avatar",
+              attrs: { src: _vm.storageData.avatar, mode: "scaleToFill" }
+            })
+          : _vm._e()
+      ]),
+      _c(
+        "view",
+        { staticClass: "info-box" },
+        [
           !_vm.storageData.login
-            ? _c("image", {
-                staticClass: "avatar",
-                attrs: { src: "../../static/default.png", mode: "scaleToFill" }
-              })
+            ? _c("navigator", { attrs: { url: "../signin/signin" } }, [
+                _vm._v("点击登录")
+              ])
             : _vm._e(),
           _vm.storageData.login
-            ? _c("image", {
-                staticClass: "avatar",
-                attrs: { src: _vm.storageData.avatar, mode: "scaleToFill" }
-              })
-            : _vm._e()
-        ]),
-        _c("view", { staticClass: "header" }, [
-          _c(
-            "view",
-            { staticClass: "info-box" },
-            [
-              !_vm.storageData.login
-                ? _c(
-                    "navigator",
-                    {
-                      staticClass: "login",
-                      attrs: { url: "../signin/signin" }
-                    },
-                    [_vm._v("点击登录")]
-                  )
-                : _vm._e(),
-              _vm.storageData.login
-                ? _c("text", { staticClass: "name" }, [
-                    _vm._v(_vm._s(_vm.storageData.nickname))
-                  ])
-                : _vm._e()
-            ],
-            1
-          ),
+            ? _c("text", [_vm._v(_vm._s(_vm.storageData.nickname))])
+            : _vm._e(),
           _vm.storageData.login
-            ? _c(
-                "view",
-                { staticClass: "mes-box" },
-                [
-                  _c("navigator", { attrs: { url: "../setting/setting" } }, [
+            ? _c("navigator", { attrs: { url: "../setting/setting" } }, [
+                _c("text", { staticClass: "setting-txt" }, [_vm._v("个人设置")])
+              ])
+            : _vm._e()
+        ],
+        1
+      )
+    ]),
+    _vm.login
+      ? _c(
+          "view",
+          [
+            _c(
+              "scroll-view",
+              {
+                staticClass: "grace-tab-title grace-center",
+                attrs: { "scroll-x": "true", id: "grace-tab-title" }
+              },
+              _vm._l(_vm.categories, function(cate, index) {
+                return _c(
+                  "view",
+                  {
+                    key: index,
+                    class: [
+                      _vm.cateCurrentIndex == index ? "grace-tab-current" : ""
+                    ],
+                    attrs: {
+                      "data-cateid": cate.cateid,
+                      "data-index": index,
+                      eventid: "0f97d692-0-" + index
+                    },
+                    on: { tap: _vm.tabChange }
+                  },
+                  [_vm._v(_vm._s(cate.name))]
+                )
+              })
+            ),
+            _c("view", { staticClass: "demo-content" }, [
+              _vm.cateCurrentIndex == 0
+                ? _c("view", { staticClass: "content" }, [
+                    _c("text", { staticClass: "article-count" }, [
+                      _vm._v(
+                        "您共发表了 " + _vm._s(_vm.articles.length) + " 篇文章"
+                      )
+                    ]),
                     _c(
-                      "text",
-                      {
-                        staticClass: "setting",
-                        attrs: { type: "primary", eventid: "0f97d692-0" },
-                        on: { tap: _vm.signOut }
-                      },
-                      [_vm._v("个人设置")]
+                      "view",
+                      { staticClass: "list" },
+                      _vm._l(_vm.articles, function(article, index) {
+                        return _c(
+                          "view",
+                          { key: index, staticClass: "list-item" },
+                          [
+                            _c(
+                              "text",
+                              {
+                                attrs: { eventid: "0f97d692-1-" + index },
+                                on: {
+                                  tap: function($event) {
+                                    _vm.gotoDetail(article.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(index + 1) +
+                                    " . " +
+                                    _vm._s(article.title)
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      })
                     )
                   ])
-                ],
-                1
-              )
-            : _vm._e()
-        ])
-      ]),
-      _vm.storageData.login
-        ? _c("view", { staticClass: "content" }, [
-            _c(
-              "view",
-              { staticClass: "card" },
-              [
-                _c("text", [_vm._v(_vm._s(_vm.articleNumb))]),
-                _c("br"),
-                _c("text", [_vm._v("文章")])
-              ],
-              1
-            ),
-            _c(
-              "view",
-              { staticClass: "card" },
-              [
-                _c("text", [_vm._v(_vm._s(_vm.concernNumb))]),
-                _c("br"),
-                _c("text", [_vm._v("关注")])
-              ],
-              1
-            ),
-            _c(
-              "view",
-              { staticClass: "card" },
-              [
-                _c("text", [_vm._v(_vm._s(_vm.infoNumb))]),
-                _c("br"),
-                _c("text", [_vm._v("消息")])
-              ],
-              1
-            ),
-            _c(
-              "view",
-              { staticClass: "card" },
-              [
-                _c("text", [_vm._v(_vm._s(_vm.jifenNumb))]),
-                _c("br"),
-                _c("text", [_vm._v("积分")])
-              ],
-              1
-            )
-          ])
-        : _vm._e(),
-      _vm._l(_vm.lists, function(list, index) {
-        return _vm.storageData.login
-          ? _c("view", { key: index, staticClass: "item" }, [
-              _c("text", { staticClass: "articleName" }, [
-                _vm._v(_vm._s(list.articleName))
-              ])
+                : _vm._e(),
+              _vm.cateCurrentIndex == 1
+                ? _c("view", { staticClass: "content" }, [
+                    _c(
+                      "view",
+                      { staticClass: "list" },
+                      [
+                        _c("text", { staticClass: "article-count" }, [
+                          _vm._v(
+                            "您共关注了 " + _vm._s(_vm.follows.length) + " 个人"
+                          )
+                        ]),
+                        _vm._l(_vm.follows, function(follow, index) {
+                          return _c(
+                            "view",
+                            { key: index, staticClass: "list-item1" },
+                            [
+                              _c("view", { staticClass: "item-avatar" }, [
+                                _c("image", {
+                                  staticClass: "avatar small",
+                                  attrs: { src: follow.avatar }
+                                })
+                              ]),
+                              _c("view", { staticClass: "item-nickname" }, [
+                                _c(
+                                  "text",
+                                  { staticStyle: { "margin-left": "20px" } },
+                                  [_vm._v(_vm._s(follow.nickname))]
+                                )
+                              ])
+                            ]
+                          )
+                        })
+                      ],
+                      2
+                    )
+                  ])
+                : _vm._e(),
+              _vm.cateCurrentIndex == 2
+                ? _c("view", { staticClass: "content" }, [
+                    _c("text", { staticClass: "article-count" }, [
+                      _vm._v(
+                        "您共收藏了 " + _vm._s(_vm.collects.length) + " 篇文章"
+                      )
+                    ]),
+                    _c(
+                      "view",
+                      { staticClass: "list" },
+                      _vm._l(_vm.collects, function(collect, index) {
+                        return _c(
+                          "view",
+                          { key: index, staticClass: "list-item" },
+                          [
+                            _c(
+                              "text",
+                              {
+                                attrs: { eventid: "0f97d692-2-" + index },
+                                on: {
+                                  tap: function($event) {
+                                    _vm.gotoDetail(collect.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(index + 1) +
+                                    " . " +
+                                    _vm._s(collect.title)
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm.cateCurrentIndex == 3
+                ? _c("view", { staticClass: "content" }, [
+                    _c("text", [_vm._v("积分 : " + _vm._s(_vm.jifen))])
+                  ])
+                : _vm._e()
             ])
-          : _vm._e()
-      })
-    ],
-    2
-  )
+          ],
+          1
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

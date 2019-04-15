@@ -1,50 +1,76 @@
 <template>
 	<view class="container">
+		<!-- 顶部头像和昵称区域，纵向排列 -->
 		<view class="top">
 			<view class="avatar-box">
-				<image src="../../static/default.png" mode="scaleToFill" class="avatar" v-if="!storageData.login">
-				</image>
+				<image src="../../static/default.png" mode="scaleToFill" class="avatar" v-if="!storageData.login"></image>
 				<image :src="storageData.avatar" mode="scaleToFill" class="avatar" v-if="storageData.login"></image>
 			</view>
-			<view class="header">
-				<view class="info-box">
-					<navigator url="../signin/signin" v-if="!storageData.login" class="login">点击登录</navigator>
-					<text v-if="storageData.login" class="name">{{ storageData.nickname }}</text>
-				</view>
-				<view class="mes-box" v-if="storageData.login">
-
-					<navigator url="../setting/setting">
-						<text type="primary" @tap="signOut" class="setting">个人设置</text>
-					</navigator>
-				</view>
+			<view class="info-box">
+				<navigator url="../signin/signin" v-if="!storageData.login">点击登录</navigator>
+				<text v-if="storageData.login">{{ storageData.nickname }}</text>
+				<navigator url="../setting/setting" v-if="storageData.login">
+					<text class="setting-txt">个人设置</text>
+				</navigator>
 			</view>
-		</view>
-		<view class="content" v-if="storageData.login">
-			<view class="card">
-				<text>{{articleNumb}}</text>
-				<br>
-				<text>文章</text>
-			</view>
-			<view class="card">
-				<text>{{concernNumb}}</text>
-				<br>
-				<text>关注</text>
-			</view>
-			<view class="card">
-				<text>{{infoNumb}}</text>
-				<br>
-				<text>消息</text>
-			</view>
-			<view class="card">
-				<text>{{jifenNumb}}</text>
-				<br>
-				<text>积分</text>
-			</view>
-		</view>
-		<view class="item" v-for="(list, index) in lists" :key="index" v-if="storageData.login">
-			<text class="articleName">{{list.articleName}}</text>
 		</view>
 
+		<!-- 中间文章数量、好友数量、消息数量等统计区域，横向排列 -->
+		<view v-if="login">
+			<scroll-view class="grace-tab-title grace-center" scroll-x="true" id="grace-tab-title">
+				<view v-for="(cate, index) in categories" :key="index" :data-cateid="cate.cateid" :data-index="index" :class="[cateCurrentIndex == index ? 'grace-tab-current' : '']"
+				 @tap="tabChange">
+					{{ cate.name }}
+				</view>
+			</scroll-view>
+
+			<view class="demo-content">
+				<!-- 文章部分 -->
+				<view class="content" v-if="cateCurrentIndex == 0">
+					<text class="article-count">您共发表了 {{ articles.length }} 篇文章</text>
+					<view class="list">
+						<view class="list-item" v-for="(article, index) in articles" :key="index">
+							</navigator>
+							<text @tap="gotoDetail(article.id)">
+								{{ index + 1 }} . {{ article.title }}
+							</text>
+						</view>
+					</view>
+				</view>
+
+				<!-- 关注部分 -->
+				<view class="content" v-if="cateCurrentIndex == 1">
+					<view class="list">
+						<text class="article-count">您共关注了 {{ follows.length }} 个人</text>
+						<view class="list-item1" v-for="(follow, index) in follows" :key="index">
+							<view class="item-avatar">
+								<image :src="follow.avatar" class="avatar small"></image>
+							</view>
+							<view class="item-nickname">
+								<text style="margin-left: 20px;">{{ follow.nickname }}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+
+				<!-- 收藏部分 -->
+				<view class="content" v-if="cateCurrentIndex == 2">
+					<text class="article-count">您共收藏了 {{ collects.length }} 篇文章</text>
+					<view class="list">
+						<view class="list-item" v-for="(collect, index) in collects" :key="index">
+							<text>
+								{{ index + 1 }} . {{ collect.title }}
+							</text>
+						</view>
+					</view>
+				</view>
+
+				<!-- 积分部分 -->
+				<view class="content" v-if="cateCurrentIndex == 3">
+					<text>积分 : {{ jifen }}</text>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -53,49 +79,148 @@
 	export default {
 		data() {
 			return {
-				storageData: {},
-				articleNumb: '10',
-				concernNumb: '5',
-				infoNumb: '66',
-				jifenNumb: '100',
-				lists: [{
-						id: '1',
-						articleName: '吐血推荐！5款好用又骚气的神战！真的有毒！（附网址）'
+				storageData: {
+					userId: 0,
+					nickname: '',
+					avatar: '',
+					login: false
+				},
+				//分类信息
+				categories: [{
+						cateid: 0,
+						name: '文章'
 					},
 					{
-						id: '2',
-						articleName: '5款APP神器，一个都不能错过（影视、音乐、阅读、工具、学习）'
+						cateid: 1,
+						name: '关注'
 					},
 					{
-						id: '3',
-						articleName: '对于程序员来说最难写的是代码吗？'
+						cateid: 2,
+						name: '收藏'
 					},
 					{
-						id: '4',
-						articleName: '坚持打卡50天，我被朋友圈大部分的人屏蔽了'
+						cateid: 3,
+						name: '积分'
 					}
-				]
+				],
+				// 当前选择的分类
+				cateCurrentIndex: 0,
+				articles: [],
+				follows: [],
+				jifen: 100,
+				collection: 8
 			};
 		},
 		onLoad: function() {},
 		onShow: function() {
+			var _this = this;
+			uni.request({
+				// url: 'http://localhost:8080/api/user/' + uni.getStorageSync('login_key').userId,
+				url: this.apiServer + '/user/getUserByMobile',
+				method: 'GET',
+				data: {
+					mobile: _this.mobile
+				},
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					if (res.data.code === 0) {
+						// console.log(res.data.data.avatar + '————————————');
+						_this.avatar = res.data.data.avatar;
+						_this.nickname = res.data.data.nickname1;
+					}
+				}
+			});
 			const loginKey = uni.getStorageSync('login_key');
-			console.log("come");
 			if (loginKey) {
-				console.log(loginKey);
+				this.login = true;
+				// console.log('shihoudengnkw:' + this.login);
 				this.storageData = {
 					login: loginKey.login,
 					nickname: loginKey.nickname,
-					avatar: loginKey.avatar
+					avatar: loginKey.avatar,
+					userId: loginKey.userId
 				};
+				// 			uni.request({
+				// 				// 获取用户的文章数量
+				// 				url: this.apiServer + '/article/getArticleByUID',
+				// 				method: 'GET',
+				// 				header: { 'content-type': 'application/x-www-form-urlencoded' },
+				// 				data: {
+				// 					userId: this.storageData.userId
+				// 				},
+				// 				success: res => {
+				// 					_this.articleCount = res.data.data.length;
+				// 					console.log('文章数量' + _this.articleCount);
+				// 				}
+				// 			});
+				uni.request({
+					// 根据用户id获取所有发表的文章
+					url: this.apiServer + '/article/getArticleByUID',
+					method: 'GET',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: {
+						uId: this.storageData.userId
+					},
+					success: res => {
+						_this.articles = res.data.data;
+					}
+				});
+				uni.request({
+					// 	根据userId查询所有关注的用户
+					url: this.apiServer + '/follow/list',
+					method: 'GET',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: {
+						fromUId: this.storageData.userId
+					},
+					success: res => {
+						_this.follows = res.data.data;
+					}
+				});
+				uni.request({
+					// 	根据userId查询所有收藏的文章
+					url: this.apiServer + '/collect/collectlist',
+					method: 'GET',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: {
+						fromUId: this.storageData.userId
+					},
+					success: res => {
+						_this.collects = res.data.data;
+					}
+				});
 			} else {
 				this.storageData = {
 					login: false
-				}
+				};
 			}
 		},
 		methods: {
-
+			tabChange: function(e) {
+				// 选中的索引
+				var index = e.currentTarget.dataset.index;
+				// 具体的分类id
+				var cateid = e.currentTarget.dataset.cateid;
+				this.cateCurrentIndex = index;
+				// 动态替换内容
+				this.content = this.categories[index].name;
+			},
+			gotoDetail: function(aId) {
+				uni.navigateTo({
+					url: '../articles_detail/article_detail?aId=' +
+						aId +
+						'&userId=' +
+						this.storageData.userId
+				});
+			}
 		}
 	};
 </script>
@@ -104,63 +229,61 @@
 	.top {
 		display: flex;
 		flex-direction: column;
-		height: 70px;
-		margin-top: 5px;
+		text-align: center;
+		height: 100px;
+		margin-top: 20px;
 	}
 
 	.avatar-box {
-		text-align: center;
+		flex: 1 1 30%;
+	}
+
+	.avatar {
+		width: 60px;
+		height: 60px;
 	}
 
 	.info-box {
+		flex: 1 1 70%;
 		display: flex;
 		align-items: center;
-		justify-content: flex-start;
+		justify-content: center;
 	}
 
-	.header {
+	.setting-txt {
+		color: #00b26a;
+		margin-left: 15px;
+	}
+
+	.center {
 		display: flex;
-		text-align: center;
-	}
-
-	.name {
-		margin-left: 180upx;
-		margin-top: 45upx;
-	}
-
-	.setting {
-		margin-left: 60upx;
-		color: green;
+		justify-content: center;
+		margin-top: 30px;
 	}
 
 	.content {
-		margin-top: 80upx;
+		margin-top: 20px;
+		flex: 1 1 25%;
+	}
+
+	.list-item {
+		margin-top: 20px;
 		display: flex;
-		flex-direction: row;
-		margin-left: 50upx;
+		border-bottom: 1px solid #EEEEEE;
+		padding-bottom: 10px;
 	}
-
-	.card {
-		text-align: center;
-		font-size: 40upx;
-		width: 150upx;
-		height: 110upx;
-		border-right: 1upx solid #EEEEEE;
+	.list-item1 {
+		margin-top: 20px;
+		display: flex;
+		border-bottom: 1px solid #EEEEEE;
+		padding-bottom: 5px;
 	}
-
-	.item {
-		height: 150upx;
-		border-bottom: 1upx solid #EEEEEE;
-		margin-top: 30upx;
+	.article-count{
+		font-size: 12px;
+		font-weight: 600;
 	}
-
-	.articleName {
-		margin-bottom: 50upx;
-		color: #8F8F94;
-	}
-
-	.login {
-		margin-left: 285upx;
-		margin-top: 60upx;
+	.item-nickname{
+		font-weight: 500;
+		font-size: 16px;
 	}
 </style>

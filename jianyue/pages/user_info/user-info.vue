@@ -3,7 +3,7 @@
 		<view class="list">
 			<navigator class="list-nick" url="change_nickname">
 				<view class="list-item">
-					昵称:
+					<text class="nickname">昵称:</text>
 					<view class="item-nick">
 						{{nickname}}
 					</view>
@@ -14,8 +14,9 @@
 				<image :src="avatar" class="avatar" @tap="showActionSheet"></image>
 			</view>
 			<view class="list-item">
-				<navigator class="list-item" url="user-password">密码:</navigator>
+				<navigator class="list-item" url="change-password">密码:</navigator>
 			</view>
+			<button class="btn-basic" @tap="back">返回</button>
 		</view>
 	</view>
 </template>
@@ -49,7 +50,8 @@
 										success: function() {
 											console.log('save success');
 											uni.uploadFile({
-												url: 'http://10.30.247.95:8080/api/user/avatar',
+												// url: 'http://192.168.137.1:8080/api/user/avatar',
+												url: this.apiServer + '/user/avatar',
 												filePath: res.tempFilePaths[0],
 												name: 'file',
 												formData: {
@@ -77,7 +79,6 @@
 								success: function(res) {
 									console.log(JSON.stringify(res.tempFilePaths));
 									uni.uploadFile({
-										url: 'http://192.168.137.1:8080/api/user/avatar',
 										filePath: res.tempFilePaths[0],
 										name: 'file',
 										formData: {
@@ -96,6 +97,9 @@
 						console.log(res.errMsg);
 					}
 				});
+			},
+			back:function(){
+				
 			}
 		},
 	};
@@ -131,5 +135,23 @@
 
 	.item-nick {
 		margin-left: 120upx;
+		font-size: 15px;
+	}
+
+	.nickname {
+		font-size: 15px;
+	}
+
+	.btn-basic {
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
+		width: 100%;
+		height: 50px;
+		margin-top: 15px;
+		border-radius: 10px;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		font-size: 20px;
+		color: #FFFFFF;
 	}
 </style>

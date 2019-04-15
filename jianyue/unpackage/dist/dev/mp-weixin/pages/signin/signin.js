@@ -167,8 +167,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       // console.log(userDTO.mobile + ',' + userDTO.password);
       uni.request({
-        // url: this.apiServer+'/user/sign_in',
-        url: 'http://10.30.247.95:8080/api/user/sign_in',
+        url: this.apiServer + '/user/sign_in',
+        // url: 'http://192.168.137.1:8080/api/user/sign_in',
         method: 'POST',
         data: {
           mobile: userDTO.mobile,
@@ -590,7 +590,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "green-btn",
+          staticClass: "btn-basic",
           attrs: { eventid: "5b087277-4" },
           on: {
             tap: function($event) {
@@ -611,7 +611,7 @@ var render = function() {
               attrs: { url: "../register/register" }
             },
             [
-              _c("text", { staticClass: "setting-txt" }, [
+              _c("text", { staticClass: "setting-text" }, [
                 _vm._v("还没有账号嘛？点我注册鸭！")
               ])
             ]

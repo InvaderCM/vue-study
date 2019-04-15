@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
 		<input class="uni-input" password type="text" placeholder="输入密码" v-model="password" required="required" />
-		<button class="green-btn" @tap="signUp(userDTO)">注册</button>
+		<button class="register-btn" @tap="signUp(userDTO)">注册</button>
+		<navigator url="../signin/signin" class="toSignin">现在就登录</navigator>
 	</view>
 </template>
 
@@ -24,8 +25,8 @@ export default {
 		signUp: function(userDTO) {
 			var _this = this;
 			uni.request({
-				// url: this.apiServer + '/user/sign_up',
-				url: 'http://192.168.137.1:8080/api/user/sign_up',
+				url: this.apiServer + '/user/sign_up',
+				// url: 'http://192.168.137.1:8080/api/user/sign_up',
 				method: 'POST',
 				header: { 'content-type': 'application/json' },
 				data: {
@@ -39,7 +40,7 @@ export default {
 						content: '注册成功'
 					})
 					uni.navigateTo({
-						url: '../signin/signin'
+						
 						});
 					} else {
 						uni.showModal({
@@ -55,7 +56,21 @@ export default {
 </script>
 
 <style>
-	.green-btn{
-		background-color: #00B26A;
+	.register-btn{
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
+		color: #FFFFFF;
+		width: 100%;
+		height: 50px;
+		margin-top: 15px;
+		border-radius: 10px;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		font-size: 20px;
+	}
+	.toSignin{
+		color: #F76260;
+		text-align: center;
+		margin-top: 10px;
 	}
 </style>

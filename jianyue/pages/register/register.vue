@@ -1,15 +1,18 @@
-“？”<template>
+<template>
 	<view class="container">
-		<view class="sign-box">
-			<input class="uni-input left" type="number" placeholder="输入手机号" v-model="mobile" required="required" />
-			<view class="getVerify">
-				<button class="green-btn small-btn right" @tap="getVerifyCode">获取验证码</button>
+		<view class="item-input">
+			<view class="left">
+				<input class="uni-input left" type="number" placeholder="输入手机号" v-model="mobile" required="required" />
 			</view>
+			<view class="right">
+				<button type="primary" class="green-btn small-btn right" :disabled="disabled" @tap="getVerifyCode">
+					{{ title }}
+				</button>
+			</view>
+			
 		</view>
-		<view class="putVerify">
-			<input class="uni-input" type="number" placeholder="输入验证码" v-model="verifyCode" required="required" />
-		</view>
-		<button @tap="checkCode" class="green-btn">下一步</button>
+		<input class="uni-input" type="number" placeholder="输入验证码" v-model="verifyCode" required="required" />
+		<button @tap="checkCode" class="register-btn" :disabled="this.nextdisabled">下一步</button>
 	</view>
 </template>
 
@@ -18,45 +21,72 @@
 		data() {
 			return {
 				mobile: '',
-				verifyCode: ''
+				verifyCode: '',
+				timer: 60,
+				disabled: false,
+				title: '发送验证码',
+				nextdisabled: false
 			};
 		},
 		onLoad() {},
 		methods: {
 			getVerifyCode: function() {
 				var _this = this;
-				uni.request({
-					// url: this.apiServer + '/user/verify',
-					url: 'http://192.168.137.1:8080/api/user/verify',
-					method: 'POST',
-					header: {
-						'content-type': 'application/x-www-form-urlencoded'
-					},
-					data: {
-						mobile: _this.mobile
-					},
-					success: res => {
-						if (res.data.code === 0) {
-							uni.showToast({
-								title: '验证码已发送'
-							});
-							_this.disabled = true;
-							console.log(_this.disabled);
-						} else {
-							uni.showModal({
-								title: '提示',
-								content: res.data.msg
-							});
+				if (_this.mobile.length < 11) {
+					uni.showToast({
+						title: '手机号不符合要求',
+						duration: 2000,
+						icon: 'none'
+					});
+					return;
+				} else {
+					_this.disabled = true;
+					let timer1 = setInterval(() => {
+						_this.timer--;
+						_this.title = _this.timer + '秒';
+						if (_this.timer == 0) {
+							clearInterval(timer1);
+							_this.timer = 60;
+							_this.disabled = false;
+
+							// _this.nextdisabled = false;
+
+							_this.title = '发送验证码';
+							return;
 						}
-					}
-				});
+					}, 1000);
+					uni.request({
+						url: _this.apiServer + '/user/verify',
+						method: 'POST',
+						header: {
+							'content-type': 'application/x-www-form-urlencoded'
+						},
+						data: {
+							mobile: _this.mobile
+						},
+						success: res => {
+							if (res.data.code === 0) {
+								uni.showToast({
+									title: '验证码已发送'
+								});
+								_this.disabled = true;
+								console.log(_this.disabled);
+							} else {
+								uni.showModal({
+									title: '提示',
+									content: res.data.msg
+								});
+							}
+						}
+					});
+				}
 			},
 			checkCode: function() {
 				var _this = this;
 				console.log(_this.verifyCode);
+				console.log(_this.mobile);
 				uni.request({
-					// url: this.apiServer + '/user/check',
-					url: 'http://192.168.137.1:8080/api/user/check',
+					url: this.apiServer + '/user/check',
 					method: 'POST',
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'
@@ -66,7 +96,7 @@
 						verifyCode: _this.verifyCode
 					},
 					success: res => {
-						console.log(res.data);
+						console.log(res.data.code);
 						if (res.data.code === 0) {
 							uni.navigateTo({
 								url: '../register/password?mobile=' + _this.mobile
@@ -77,7 +107,6 @@
 								content: res.data.msg
 							});
 						}
-
 					}
 				});
 			}
@@ -86,30 +115,26 @@
 </script>
 
 <style>
-	.sign-box {
+	.item-input{
 		display: flex;
-		align-items: center;
+		justify-content: space-between;
+		margin-top: 5px;
 	}
-
-	.left {
-		flex: 1 1 70%;
-	}
-
 	.small-btn {
-		width: 100px;
-		height: 40px;
-		font-size: 14px;
-		background-color: #00B26A;
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
 		color: #FFFFFF;
+		width: 100%;
 	}
-
-	.putVerify {
-		margin-top: 40upx;
-	}
-
-	.green-btn {
-		margin-top: 40upx;
-		background-color: #00B26A;
+	.register-btn{
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
 		color: #FFFFFF;
+		width: 100%;
+		height: 50px;
+		margin-top: 15px;
+		border-radius: 10px;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		font-size: 20px;
 	}
 </style>
