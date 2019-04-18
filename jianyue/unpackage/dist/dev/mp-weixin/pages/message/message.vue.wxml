@@ -1,1 +1,1 @@
-<template name="d2af0072"><view class="_div d2af0072"></view></template>
+<template name="d2af0072"><view class="_view d2af0072 container"><view class="_view d2af0072"><button class="_button d2af0072 btn"></button></view><view class="_view d2af0072 mask" id="mask"><view class="_view d2af0072 login" id="login"></view></view></view></template>

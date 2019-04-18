@@ -212,6 +212,9 @@ __webpack_require__.r(__webpack_exports__);
           console.log(res.errMsg);
         } });
 
+    },
+    back: function back() {
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
@@ -292,7 +295,15 @@ var render = function() {
           ],
           1
         ),
-        _c("button", { staticClass: "btn-basic" }, [_vm._v("返回")])
+        _c(
+          "button",
+          {
+            staticClass: "btn-basic",
+            attrs: { eventid: "945fdbea-2" },
+            on: { tap: _vm.back }
+          },
+          [_vm._v("返回")]
+        )
       ],
       1
     )

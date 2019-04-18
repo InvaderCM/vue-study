@@ -9,6 +9,7 @@ input.data-v-ab326098 {
 .btn-basic.data-v-ab326098 {
 	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
 	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	color: #FFFFFF;
 	width: 100%;
 	height: 50px;
 	margin-top: 15px;

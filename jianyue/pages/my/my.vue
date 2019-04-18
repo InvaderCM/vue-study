@@ -7,11 +7,32 @@
 				<image :src="storageData.avatar" mode="scaleToFill" class="avatar" v-if="storageData.login"></image>
 			</view>
 			<view class="info-box">
-				<navigator url="../signin/signin" v-if="!storageData.login">点击登录</navigator>
-				<text v-if="storageData.login">{{ storageData.nickname }}</text>
-				<navigator url="../setting/setting" v-if="storageData.login">
-					<text class="setting-txt">个人设置</text>
-				</navigator>
+				<view class="left">
+					<navigator url="../signin/signin" v-if="!storageData.login">点击登录</navigator>
+					<text v-if="storageData.login">{{ storageData.nickname }}</text>
+					<navigator url="../setting/setting" v-if="storageData.login">
+						<text class="setting-txt">个人设置</text>
+					</navigator>
+				</view>
+				<view class="leftright3">
+			<view class="left3"></view>
+			<view class="right3">
+				<button class="qiandao" type="primary" @tap="showShade">
+					<text style="">签到</text>
+				</button>
+			</view>
+			<view class="grace-shade" v-if="show">
+				<view class="grace-shade-msg grace-box-shadow overlay">
+					<view class="close-btn grace-icons icon-close3 " @tap="closeShade()">关闭asdsadasdasd</view>
+					<view class="body1">
+						<text class="grace-icons icon-eye " style="margin-right:10px;"></text>
+						<image src="../../static/head2.jpg" class="tu"/>
+						<button @tap="closeShade()"class="fanhui">签到成功(点击返回)</button>
+						
+					</view>
+				</view>
+			</view>
+		</view>
 			</view>
 		</view>
 
@@ -79,6 +100,7 @@
 	export default {
 		data() {
 			return {
+				show:false,
 				storageData: {
 					userId: 0,
 					nickname: '',
@@ -204,6 +226,15 @@
 			}
 		},
 		methods: {
+			back: function() {
+				uni.navigateBack();
+			},
+			showShade: function() {
+				this.show = true;
+			},
+			closeShade: function() {
+				this.show = false;
+			},
 			tabChange: function(e) {
 				// 选中的索引
 				var index = e.currentTarget.dataset.index;
@@ -220,22 +251,72 @@
 						'&userId=' +
 						this.storageData.userId
 				});
+			},
+			mask: function() {
+				this.$refs.mask.style.height = doc.getElementById('app').clientHeight + 'px'
 			}
+
 		}
 	};
 </script>
 
 <style scoped>
-	.top {
+	@import "../../graceUI/animate.css";
+	.demo {
+		display: flex;
+		flex-wrap: nowrap;
+		border-left: 1px solid #F8F8F8;
+	}
+	
+	.demo view {
+		width: 100%;
+		text-align: center;
+		padding: 10upx 2%;
+		border-bottom: 1px solid #F8F8F8;
+		border-right: 1px solid #F8F8F8;
+	}
+	.leftright3 {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.overlay {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 9;
+		background-color: rgba(0, 0, 0, .8);
+	}
+	.body1{
 		display: flex;
 		flex-direction: column;
-		text-align: center;
-		height: 100px;
+		align-items: center;
+	}
+	.tu{
+		width: 90%;
+		margin: 0 auto;
+		height: 400px;
+	}
+	.fanhui{
+		width: 60%;
+		margin-top: 10px;
+		background: #09BB07;
+		color: #FFFFFF;
+		position: relative;
+	}
+	.top {
+		display: flex;
+		flex-direction: row;
+		height: 80px;
 		margin-top: 20px;
 	}
 
 	.avatar-box {
-		flex: 1 1 30%;
+		display: flex;
+		flex: 1 10%;
+		justify-content: center;
 	}
 
 	.avatar {
@@ -244,10 +325,9 @@
 	}
 
 	.info-box {
-		flex: 1 1 70%;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
+		flex: 1 60%;
 	}
 
 	.setting-txt {
@@ -272,18 +352,57 @@
 		border-bottom: 1px solid #EEEEEE;
 		padding-bottom: 10px;
 	}
+
 	.list-item1 {
 		margin-top: 20px;
 		display: flex;
 		border-bottom: 1px solid #EEEEEE;
 		padding-bottom: 5px;
 	}
-	.article-count{
+
+	.article-count {
 		font-size: 12px;
 		font-weight: 600;
 	}
-	.item-nickname{
+
+	.item-nickname {
 		font-weight: 500;
 		font-size: 16px;
+	}
+
+	.btn {
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
+		color: #FFF;
+		width: 100%;
+		height: 50px;
+		border-radius: 10px;
+		padding: 0;
+		cursor: pointer;
+		border: none;
+		font-size: 15px;
+	}
+
+	.txt-btn {
+		text-align: center;
+	}
+
+	.left {
+		flex: 1 50%;
+	}
+
+	.right {
+		flex: 1 50%;
+	}
+	.overlay {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 9;
+		background-color: rgba(0, 0, 0, .8);
+	}
+	.qiandao{
+		background: #09BB07;
 	}
 </style>

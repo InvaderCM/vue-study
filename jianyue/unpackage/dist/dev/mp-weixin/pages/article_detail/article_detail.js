@@ -193,7 +193,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
       uni.request({
         url: this.apiServer + '/article/' + this.article.aId,
-        // url: 'http://10.40.149.20:8080/api/article/{aId}',
         method: 'GET',
         header: {
           'content-type': 'application/x-www-form-urlencoded' },
@@ -202,7 +201,6 @@ __webpack_require__.r(__webpack_exports__);
           userId: this.userId },
 
         success: function success(res) {
-          // console.log(res.data.data.article);
           _this.article.aId = res.data.data.article.id;
           _this.article.uId = res.data.data.article.uId;
           _this.article.title = res.data.data.article.title;
@@ -230,11 +228,18 @@ __webpack_require__.r(__webpack_exports__);
       var seconds = d.getSeconds() < 10 ? '0' + d.getSeconds() : '' + d.getSeconds();
       return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + seconds;
     },
+    handleContent: function handleContent(content) {
+      content = content.replace(/(\n)/g, '');
+      content = content.replace(/(\t)/g, '');
+      content = content.replace(/(\r)/g, '');
+      content = content.replace(/<\/?[^>]*>/g, '');
+      content = content.replace(/\s*/g, '');
+      return content.substring(0, 50);
+    },
     send: function send() {var _this2 = this;
       console.log('评论人编号：' + this.userId + ',文章编号：' + this.article.aId + '，评论内容：' + this.content);
       uni.request({
-        url: this.apiServer + 'comment/add',
-        // url: 'http://10.30.162.205:8080/api/comment/add',
+        url: this.apiServer + '/comment/add',
         method: 'POST',
         header: {
           'content-type': 'application/x-www-form-urlencoded' },
@@ -258,7 +263,6 @@ __webpack_require__.r(__webpack_exports__);
     follow: function follow() {var _this3 = this;
       uni.request({
         url: this.apiServer + '/follow/add',
-        // url: 'http://10.30.162.205:8080/api/follow/add',
         method: 'POST',
         header: {
           'content-type': 'application/x-www-form-urlencoded' },
@@ -282,7 +286,6 @@ __webpack_require__.r(__webpack_exports__);
     cancelFollow: function cancelFollow() {var _this4 = this;
       uni.request({
         url: this.apiServer + '/follow/cancel',
-        // url: 'http://10.30.162.205:8080/api/follow/cancel',
         method: 'POST',
         header: {
           'content-type': 'application/x-www-form-urlencoded' },

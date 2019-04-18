@@ -85,7 +85,7 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "../../../../
 
 
 _vue.default.config.productionTip = false;
-_vue.default.prototype.apiServer = 'http://10.30.172.146:8080/api';
+_vue.default.prototype.apiServer = 'http://10.40.173.242:8080/api';
 
 _App.default.mpType = 'app';
 

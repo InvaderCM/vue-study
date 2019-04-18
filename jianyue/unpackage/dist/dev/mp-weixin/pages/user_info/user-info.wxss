@@ -55,6 +55,6 @@
 	cursor: pointer;
 	border: none;
 	font-size: 20px;
-	color: #EEEEEE;
+	color: #FFFFFF;
 }
 

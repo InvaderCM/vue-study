@@ -189,11 +189,10 @@ __webpack_require__.r(__webpack_exports__);
     getArticles: function getArticles() {
       var _this = this;
       uni.request({
-        // url: 'http://10.30.162.205:8080/api/article/list',
         url: this.apiServer + '/article/list',
         method: 'GET',
         header: {
-          'content-type': 'application/x-www-form-urlencoded' },
+          'content-type': 'application/json' },
 
         success: function success(res) {
           _this.articles = res.data.data;

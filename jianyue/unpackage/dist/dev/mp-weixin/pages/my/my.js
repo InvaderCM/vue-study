@@ -189,10 +189,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var loginRes, _self;var _default =
 {
   data: function data() {
     return {
+      show: false,
       storageData: {
         userId: 0,
         nickname: '',
@@ -318,6 +341,15 @@ var loginRes, _self;var _default =
     }
   },
   methods: {
+    back: function back() {
+      uni.navigateBack();
+    },
+    showShade: function showShade() {
+      this.show = true;
+    },
+    closeShade: function closeShade() {
+      this.show = false;
+    },
     tabChange: function tabChange(e) {
       // 选中的索引
       var index = e.currentTarget.dataset.index;
@@ -334,6 +366,9 @@ var loginRes, _self;var _default =
         '&userId=' +
         this.storageData.userId });
 
+    },
+    mask: function mask() {
+      this.$refs.mask.style.height = doc.getElementById('app').clientHeight + 'px';
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
@@ -381,26 +416,100 @@ var render = function() {
             })
           : _vm._e()
       ]),
-      _c(
-        "view",
-        { staticClass: "info-box" },
-        [
-          !_vm.storageData.login
-            ? _c("navigator", { attrs: { url: "../signin/signin" } }, [
-                _vm._v("点击登录")
-              ])
-            : _vm._e(),
-          _vm.storageData.login
-            ? _c("text", [_vm._v(_vm._s(_vm.storageData.nickname))])
-            : _vm._e(),
-          _vm.storageData.login
-            ? _c("navigator", { attrs: { url: "../setting/setting" } }, [
-                _c("text", { staticClass: "setting-txt" }, [_vm._v("个人设置")])
+      _c("view", { staticClass: "info-box" }, [
+        _c(
+          "view",
+          { staticClass: "left" },
+          [
+            !_vm.storageData.login
+              ? _c("navigator", { attrs: { url: "../signin/signin" } }, [
+                  _vm._v("点击登录")
+                ])
+              : _vm._e(),
+            _vm.storageData.login
+              ? _c("text", [_vm._v(_vm._s(_vm.storageData.nickname))])
+              : _vm._e(),
+            _vm.storageData.login
+              ? _c("navigator", { attrs: { url: "../setting/setting" } }, [
+                  _c("text", { staticClass: "setting-txt" }, [
+                    _vm._v("个人设置")
+                  ])
+                ])
+              : _vm._e()
+          ],
+          1
+        ),
+        _c("view", { staticClass: "leftright3" }, [
+          _c("view", { staticClass: "left3" }),
+          _c(
+            "view",
+            { staticClass: "right3" },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "qiandao",
+                  attrs: { type: "primary", eventid: "0f97d692-0" },
+                  on: { tap: _vm.showShade }
+                },
+                [_c("text", {}, [_vm._v("签到")])]
+              )
+            ],
+            1
+          ),
+          _vm.show
+            ? _c("view", { staticClass: "grace-shade" }, [
+                _c(
+                  "view",
+                  { staticClass: "grace-shade-msg grace-box-shadow overlay" },
+                  [
+                    _c(
+                      "view",
+                      {
+                        staticClass: "close-btn grace-icons icon-close3 ",
+                        attrs: { eventid: "0f97d692-1" },
+                        on: {
+                          tap: function($event) {
+                            _vm.closeShade()
+                          }
+                        }
+                      },
+                      [_vm._v("关闭asdsadasdasd")]
+                    ),
+                    _c(
+                      "view",
+                      { staticClass: "body1" },
+                      [
+                        _c("text", {
+                          staticClass: "grace-icons icon-eye ",
+                          staticStyle: { "margin-right": "10px" }
+                        }),
+                        _c("image", {
+                          staticClass: "tu",
+                          attrs: { src: "../../static/head2.jpg" }
+                        }),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "fanhui",
+                            attrs: { eventid: "0f97d692-2" },
+                            on: {
+                              tap: function($event) {
+                                _vm.closeShade()
+                              }
+                            }
+                          },
+                          [_vm._v("签到成功(点击返回)")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                )
               ])
             : _vm._e()
-        ],
-        1
-      )
+        ])
+      ])
     ]),
     _vm.login
       ? _c(
@@ -423,7 +532,7 @@ var render = function() {
                     attrs: {
                       "data-cateid": cate.cateid,
                       "data-index": index,
-                      eventid: "0f97d692-0-" + index
+                      eventid: "0f97d692-3-" + index
                     },
                     on: { tap: _vm.tabChange }
                   },
@@ -450,7 +559,7 @@ var render = function() {
                             _c(
                               "text",
                               {
-                                attrs: { eventid: "0f97d692-1-" + index },
+                                attrs: { eventid: "0f97d692-4-" + index },
                                 on: {
                                   tap: function($event) {
                                     _vm.gotoDetail(article.id)
@@ -523,24 +632,13 @@ var render = function() {
                           "view",
                           { key: index, staticClass: "list-item" },
                           [
-                            _c(
-                              "text",
-                              {
-                                attrs: { eventid: "0f97d692-2-" + index },
-                                on: {
-                                  tap: function($event) {
-                                    _vm.gotoDetail(collect.id)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(index + 1) +
-                                    " . " +
-                                    _vm._s(collect.title)
-                                )
-                              ]
-                            )
+                            _c("text", [
+                              _vm._v(
+                                _vm._s(index + 1) +
+                                  " . " +
+                                  _vm._s(collect.title)
+                              )
+                            ])
                           ]
                         )
                       })
